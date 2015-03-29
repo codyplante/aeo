@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'engineApp',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,7 +60,7 @@ WSGI_APPLICATION = 'optimizationEngine.wsgi.application'
 
 DATABASES = {
     'default': {
-	'ENGINE': 'django.db.backends.postgresql_psycopg2',
+	'ENGINE': 'django.contrib.gis.db.backends.postgis',
 	'NAME': 'aoe_db',
 	'USER': 'aoe_user',
 	'PASSWORD': 'superaffiliate',
