@@ -1,3 +1,4 @@
+from engineApp.WebProfiler import *
 from django.shortcuts import render
 
 # Create your views here.
@@ -6,20 +7,22 @@ from django.http import HttpResponse, JsonResponse
 
 
 def scanTarget(request):
+    target = request.GET["target"]
+    scan = WebProfiler(target)
     scanResult = {
-        "status": "",
+        "status": "success",
         "message": "",
         "data": {
-            "name": "",
-            "httpStatus": 400,
+            "name": scan.request.url,
+            "httpStatus": scan.request.status_code,
             "ip": "",
             "serverLocation": "",
-            "requestTime": "",
-            "responseTime": 0,
+            "requestTime": scan.request.elapsed.microseconds/1000,
+            "responseTime": scan.getContentTime(),
             "assets": [
                 {
-                    "name": "",
-                    "size": 0,
+                    "name": "index",
+                    "size": len(scan.request.content),
                     "requestTime": "",
                     "responseTime": 0
                 },
