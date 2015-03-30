@@ -1,12 +1,19 @@
 from datetime import datetime
 import requests
+from bs4 import BeautifulSoup
 class WebProfiler:
     def __init__(self, target="http://google.ca"):
         self.request = None
         self.requestTimes = self.detailedScanTarget(target)
 
+    def getResourceLinks(self):
+        soup = BeautifulSoup(self.request.text)
+        self.assetLinks = []
+        for link in soup.select('[src]'):
+            self.assetLinks.append(link['src'])
+
     def getResponseTime(self):
-        return self.compareTime("requestStart","headerResponse")
+        return self.compareTime("requestStart", "headerResponse")
 
     def getContentTime(self):
         return self.compareTime("headerResponse", "contentResponse")

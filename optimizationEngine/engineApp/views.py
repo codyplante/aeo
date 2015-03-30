@@ -7,7 +7,10 @@ from django.http import HttpResponse, JsonResponse
 
 
 def scanTarget(request):
-    target = request.GET["target"]
+    try:
+        target = request.GET["target"]
+    except Exception:
+        target = "http://google.com"
     scan = WebProfiler(target)
     scanResult = {
         "status": "success",
@@ -18,7 +21,7 @@ def scanTarget(request):
             "ip": "",
             "serverLocation": "",
             "requestTime": scan.request.elapsed.microseconds/1000,
-            "responseTime": scan.getContentTime(),
+            "responseTime": scan.request.history[0].elapsed.microseconds/1000,
             "assets": [
                 {
                     "name": "index",
